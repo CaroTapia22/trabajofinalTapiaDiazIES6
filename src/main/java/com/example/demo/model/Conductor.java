@@ -20,7 +20,7 @@ public class Conductor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer dni;
 
     @Column
     @NotBlank(message = "El nombre es un campo requerido")
@@ -47,9 +47,9 @@ public class Conductor {
     public Conductor() {
     }
 
-    public Conductor(Integer id, String nombre, String apellido,
+    public Conductor(Integer dni, String nombre, String apellido,
                      String licencia, String telefono, LocalDate fechaRegistro, Boolean estado) {
-        this.id = id;
+        this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
         this.licencia = licencia;
@@ -59,8 +59,8 @@ public class Conductor {
     }
 
     // Getter y Setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public Integer getDni() { return dni; }
+    public void setId(Integer dni) { this.dni = dni; }
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
