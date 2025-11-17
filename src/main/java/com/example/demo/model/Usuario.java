@@ -16,7 +16,7 @@ public class Usuario {
     // atributos privados
 
     @Id
-    private Integer dni;
+    private String dni;
 
     @Column
     private String nombre;
@@ -27,8 +27,6 @@ public class Usuario {
     @Column
     private String correo;
 
-    @Column
-    private String formaPago;
 
     @Column
     private String telefono;
@@ -41,24 +39,23 @@ public class Usuario {
     public Usuario () {
     }
 
-    public Usuario (Integer dni, String nombre, String apellido, String correo, String formaPago, String telefono, Boolean estado){
+    public Usuario (String dni, String nombre, String apellido, String correo, String telefono, Boolean estado){
 
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo; 
-        this.formaPago = formaPago;
         this.telefono = telefono;
         this.estado = estado;
     }
 
         // metodos getters y setters
 
-    public Integer getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(Integer dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 
@@ -86,13 +83,6 @@ public class Usuario {
         this.correo = correo;
     }
 
-    public String getFormaPago() {
-        return formaPago;
-    }
-
-    public void setFormaPago(String formaPago) {
-        this.formaPago = formaPago;
-    }
 
     public String getTelefono() {
         return telefono;
@@ -113,5 +103,5 @@ public class Usuario {
 
 
 // agregar relación con Viaje cuando este creada
-// @OnetoMany
+// @MonytoMany
 }
