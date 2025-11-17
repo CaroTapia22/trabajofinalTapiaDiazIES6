@@ -11,6 +11,6 @@ import com.example.demo.model.Conductor;
 public interface ConductorRepository extends CrudRepository<Conductor, Integer> {
 
     // listar conductores activos
-    List<Conductor> findByActivo(Boolean activo);
+    List<Conductor> findByEstado(Boolean estado);
 }
 

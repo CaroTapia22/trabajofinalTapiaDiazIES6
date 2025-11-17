@@ -21,13 +21,13 @@ public class ConductorServiceImpBD implements ConductorServiceI {
     public void borrarConductor(Integer id) throws Exception {
         Conductor conductorBorrar = conductorRepository.findById(id)
                 .orElseThrow(() -> new Exception("Conductor no encontrado"));
-        conductorBorrar.setActivo(false);   // BORRADO LOGICO
+        conductorBorrar.setEstado(false);   // BORRADO LOGICO
         conductorRepository.save(conductorBorrar);
     }
 
     @Override
     public void agregarConductor(Conductor conductor) {
-        conductor.setActivo(true);  //CADA VEZ QUE SE GUARDE SE CREE PO PRIMERA VEZ, POR DEFECTO SERA TRUE
+        conductor.setEstado(true);  //CADA VEZ QUE SE GUARDE SE CREE PO PRIMERA VEZ, POR DEFECTO SERA TRUE
         conductorRepository.save(conductor);
     }
 
@@ -59,6 +59,6 @@ public class ConductorServiceImpBD implements ConductorServiceI {
 
     @Override
     public List<Conductor> listarTodosConductoresActivos() {
-        return conductorRepository.findByActivo(true);
+        return conductorRepository.findByEstado(true);
     }
 }

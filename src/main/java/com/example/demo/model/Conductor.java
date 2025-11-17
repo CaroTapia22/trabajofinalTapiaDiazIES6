@@ -6,8 +6,6 @@ import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -19,7 +17,6 @@ import jakarta.validation.constraints.Pattern;
 public class Conductor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer dni;
 
     @Column
@@ -60,7 +57,7 @@ public class Conductor {
 
     // Getter y Setters
     public Integer getDni() { return dni; }
-    public void setId(Integer dni) { this.dni = dni; }
+    public void setDni(Integer dni) { this.dni = dni; }
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
@@ -77,6 +74,6 @@ public class Conductor {
     public LocalDate getFechaRegistro() { return fechaRegistro; }
     public void setFechaRegistro(LocalDate fechaRegistro) { this.fechaRegistro = fechaRegistro; }
 
-    public Boolean getActivo() { return estado; }
-    public void setActivo(Boolean estado) { this.estado = estado; }
+    public Boolean getEstado() { return estado; }
+    public void setEstado(Boolean estado) { this.estado = estado; }
 }
