@@ -27,33 +27,36 @@
         <div class="mb-3">
             <label class="form-label">DNI</label>
             <input type="text" class="form-control" placeholder="Ingresar DNI sin puntos"
-                   th:field="*{dni}" required th:readonly="${band}" />
+                   th:field="*{dni}" th:readonly="${band}" />
+            <span th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Nombre</label>
             <input type="text" class="form-control" placeholder="Ingresar su nombre"
-                   th:field="*{nombre}" minlength="2" maxlength="20" required />
+                   th:field="*{nombre}" />
+            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Apellido</label>
             <input type="text" class="form-control" placeholder="Ingrese su apellido"
-                   th:field="*{apellido}" required />
+                   th:field="*{apellido}" />
             <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Correo electrónico</label>
             <input type="email" class="form-control" placeholder="Ej: uber@correo.com"
-                   th:field="*{correo}" required />
+                   th:field="*{correo}" />
+            <span th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}" class="text-danger"></span>
         </div>
-
 
         <div class="mb-3">
             <label class="form-label">Teléfono</label>
             <input type="text" class="form-control" placeholder="Ej: +541100000000"
-                   th:field="*{telefono}" required />
+                   th:field="*{telefono}" />
+            <span th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
