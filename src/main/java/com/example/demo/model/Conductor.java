@@ -3,7 +3,7 @@ package com.example.demo.model;
 import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
-
+import com.example.demo.model.Vehiculo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -11,7 +11,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
 import jakarta.persistence.OneToOne;
-import com.example.demo.model.Vehiculo;
 
 
 
