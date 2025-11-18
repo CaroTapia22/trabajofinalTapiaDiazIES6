@@ -3,13 +3,15 @@ package com.example.demo.model;
 import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
-
+import com.example.demo.model.Vehiculo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
+import jakarta.persistence.OneToOne;
+
 
 
 @Component
@@ -39,6 +41,12 @@ public class Conductor {
 
 
     //agregar @OneToOne con Vehiculo
+
+    // 1:1: UN CONDUCTOR TIENE  UN VEHICULO
+    @OneToOne(mappedBy = "conductor")
+    private Vehiculo vehiculo;
+
+
     //agregar @OneToMany con Viaje
 
     public Conductor() {
@@ -68,12 +76,36 @@ public class Conductor {
     public String getLicencia() { return licencia; }
     public void setLicencia(String licencia) { this.licencia = licencia; }
 
-    public String getTelefono() { return telefono; }
-    public void setTelefono(String telefono) { this.telefono = telefono; }
 
-    public LocalDate getFechaRegistro() { return fechaRegistro; }
-    public void setFechaRegistro(LocalDate fechaRegistro) { this.fechaRegistro = fechaRegistro; }
+    public String getTelefono() { 
+        return telefono; 
+    }
+    public void setTelefono(String telefono) { 
+        this.telefono = telefono; 
+    }
 
-    public Boolean getEstado() { return estado; }
-    public void setEstado(Boolean estado) { this.estado = estado; }
+
+    public LocalDate getFechaRegistro() { 
+        return fechaRegistro;
+     }
+    public void setFechaRegistro(LocalDate fechaRegistro) {
+         this.fechaRegistro = fechaRegistro;
+     }
+
+
+    public Boolean getEstado() { 
+        return estado; 
+    }
+    public void setEstado(Boolean estado) {
+         this.estado = estado;
+     }
+
+
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+
 }

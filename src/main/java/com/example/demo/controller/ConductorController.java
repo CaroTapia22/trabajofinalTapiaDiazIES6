@@ -2,73 +2,107 @@ package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.model.Conductor;
 import com.example.demo.service.ConductorServiceI;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class ConductorController {
 
     @Autowired
-    ConductorServiceI conductorService;
+    private ConductorServiceI conductorService;
 
-    //lita de todos los conductores
+    // LISTA DE CONDUCTORES
     @GetMapping("/listarConductores")
-    public String listarConductores(Model model) {
+    public ModelAndView listarConductores() {
 
-        model.addAttribute("listaConductores", conductorService.listarTodosConductores());
+        ModelAndView carritoParaMostrarConductores = new ModelAndView("listaConductores");
+        carritoParaMostrarConductores.addObject("listaConductores", conductorService.listarTodosConductores());
 
-        return "listaConductores";
+        return carritoParaMostrarConductores;
     }
 
-    // formulario para conductor nuevo
+    // FORMULARIO NUEVO CONDUCTOR
     @GetMapping("/nuevoConductor")
-    public String nuevoConductor(Model model) {
+    public ModelAndView nuevoConductor() {
 
-        Conductor conductor = conductorService.crearNuevoConductor();
+        ModelAndView carritoNuevoConductor = new ModelAndView("formularioConductor");
+        carritoNuevoConductor.addObject("nuevoConductor", conductorService.crearNuevoConductor());
+        carritoNuevoConductor.addObject("band", false); 
 
-        model.addAttribute("nuevoConductor", conductor);
-        model.addAttribute("band", false);  // false para crear nuevo conductor
-
-        return "formularioConductor";
+        return carritoNuevoConductor;
     }
 
-    // guarda conductor nuevo
+    // GUARDAR CONDUCTOR NUEVO
     @PostMapping("/guardarConductor")
-    public String guardarConductor(Conductor conductor) {
+    public ModelAndView guardarConductor(
+            @Valid @ModelAttribute("nuevoConductor") Conductor conductor,
+            BindingResult result) {
+
+        ModelAndView carritoGuardar = new ModelAndView();
+
+        if (result.hasErrors()) {
+            carritoGuardar.setViewName("formularioConductor");
+            carritoGuardar.addObject("nuevoConductor", conductor);
+            carritoGuardar.addObject("band", false); 
+            return carritoGuardar;
+        }
 
         conductorService.agregarConductor(conductor);
-        return "redirect:/listarConductores";
+        carritoGuardar.setViewName("redirect:/listarConductores");
+
+        return carritoGuardar;
     }
 
-    // editar
+    // BUSCAR CONDUCTOR PARA EDITAR
     @GetMapping("/editarConductor")
-    public String editarConductor(@RequestParam("dni") Integer dni, Model model) throws Exception {
+    public ModelAndView editarConductor(@RequestParam("dni") Integer dni) throws Exception {
 
-        Conductor conductorEncontrado = conductorService.buscarConductor(dni);
+        ModelAndView carritoParaEditarConductor = new ModelAndView("formularioConductor");
+        carritoParaEditarConductor.addObject("nuevoConductor", conductorService.buscarConductor(dni));
+        carritoParaEditarConductor.addObject("band", true); // modo editar
 
-        model.addAttribute("nuevoConductor", conductorEncontrado);
-        model.addAttribute("band", true); // true en edición
-
-        return "formularioConductor";
+        return carritoParaEditarConductor;
     }
 
+    // MODIFICAR CONDUCTOR
     @PostMapping("/modificarConductor")
-    public String modificarConductor(Conductor conductor) {
+    public ModelAndView modificarConductor(
+            @Valid @ModelAttribute("nuevoConductor") Conductor conductor,
+            BindingResult result) {
+
+        ModelAndView carritoModificar = new ModelAndView();
+
+        if (result.hasErrors()) {
+            carritoModificar.setViewName("formularioConductor");
+            carritoModificar.addObject("nuevoConductor", conductor);
+            carritoModificar.addObject("band", true); // modo editar
+            return carritoModificar;
+        }
 
         conductorService.modificarConductor(conductor);
-        return "redirect:/listarConductores";
+        carritoModificar.setViewName("redirect:/listarConductores");
+
+        return carritoModificar;
     }
 
     // BORRADO LOGICO
     @GetMapping("/borrarConductor")
-    public String borrarConductor(@RequestParam("dni") Integer dni) throws Exception {
+    public ModelAndView borrarConductor(@RequestParam("dni") Integer dni) throws Exception {
 
         conductorService.borrarConductor(dni);
-        return "redirect:/listarConductores";
+
+        ModelAndView listadoConductores = new ModelAndView("redirect:/listarConductores");
+        return listadoConductores;
     }
 }
+
+

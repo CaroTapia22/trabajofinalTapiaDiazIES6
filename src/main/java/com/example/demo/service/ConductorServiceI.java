@@ -6,16 +6,16 @@ import com.example.demo.model.Conductor;
 
 public interface ConductorServiceI {
 
-    List<Conductor> listarTodosConductores();
-    List<Conductor> listarTodosConductoresActivos();
+    public List<Conductor> listarTodosConductores();
+    public List<Conductor> listarTodosConductoresActivos();
 
-    void borrarConductor(Integer dni) throws Exception;  // borrado lógico
-    void agregarConductor(Conductor conductor);
-    void modificarConductor(Conductor conductor);
+    public void borrarConductor(Integer dni) throws Exception;  // borrado lógico
+    public void agregarConductor(Conductor conductor);
+    public void modificarConductor(Conductor conductor);
 
-    Conductor buscarConductor(Integer dni) throws Exception;
-    Conductor buscarUnoPorNombreConductor(String nombre);
+    public Conductor buscarConductor(Integer dni) throws Exception;
+    public Conductor buscarUnoPorNombreConductor(String nombre);
 
-    Conductor crearNuevoConductor();
+    public Conductor crearNuevoConductor();
 }
 
