@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vehiculos disponibles</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet" crossorigin="anonymous">
+</head>
+
+<body class="container mt-5">
+
+<h1 class="mb-4">Vehiculos disponibles para viaje</h1>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Patente</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Color</th>
+        <th>Tipo</th>
+        <th>Conductor</th>
+        <th>Acción</th>
+    </tr>
+    </thead>
+
+    <tbody data-th-each="vehiculo : ${listaVehiculos}">
+        <tr>
+            <td data-th-text="${vehiculo.patente}"></td>
+            <td data-th-text="${vehiculo.marca}"></td>
+            <td data-th-text="${vehiculo.modelo}"></td>
+            <td data-th-text="${vehiculo.color}"></td>
+            <td data-th-text="${vehiculo.tipo}"></td>
+
+            <td data-th-text="${vehiculo.conductor != null ? vehiculo.conductor.nombre + ' ' + vehiculo.conductor.apellido : 'Sin asignar'}"></td>
+
+            <td>
+
+
+                <!-- despues enganchar el formulario de viaje de PABLOOOO -->
+                <a class="btn btn-primary btn-sm"
+                   data-th-href="@{'/seleccionarVehiculoParaViaje'(patente=${vehiculo.patente})}">
+                    Seleccionar
+                </a>
+            </td>
+        </tr>
+    </tbody>
+
+</table>
+
+</body>
+</html>

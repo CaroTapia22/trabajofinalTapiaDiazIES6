@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Conductores</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+         rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+        crossorigin="anonymous">
+</head>
+
+<body class="container mt-5">
+
+    <h1 class="mb-4">Lista de Conductores</h1>
+
+    <a href="/nuevoConductor" class="btn btn-primary mb-3">Nuevo Conductor</a>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Teléfono</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+
+        <tbody data-th-each="conductor : ${listaConductores}">
+            <tr>
+            <td data-th-text="${conductor.dni}"></td>
+            <td data-th-text="${conductor.nombre}"></td>
+            <td data-th-text="${conductor.apellido}"></td>
+            <td data-th-text="${conductor.telefono}"></td>
+
+                <!-- muestro el estado activo o inactivo -->
+            <td>
+               <span data-th-text="${conductor.estado} ? 'Activo' : 'Inactivo'"></span>
+            </td>
+
+            <td>
+                    
+                 <a class="btn btn-warning btn-sm"
+                    data-th-href="@{/editarConductor(dni=${conductor.dni})}">
+                    Editar
+                </a>
+
+                 
+                <a class="btn btn-danger btn-sm"
+                    data-th-href="@{/borrarConductor(dni=${conductor.dni})}">
+                     Borrar
+                </a>
+            </td>
+          </tr>
+     </tbody>
+    </table>
+
+</body>
+</html>
