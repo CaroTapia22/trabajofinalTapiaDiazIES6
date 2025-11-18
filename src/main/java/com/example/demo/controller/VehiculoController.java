@@ -2,10 +2,10 @@ package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.model.Vehiculo;
 import com.example.demo.model.TipoVehiculo;
@@ -23,63 +23,82 @@ public class VehiculoController {
 
     // LISTAR TODOS LOS VEHICULOS
     @GetMapping("/listarVehiculos")
-    public String listarVehiculos(Model model) {
+    public ModelAndView listarVehiculos() {
 
-        model.addAttribute("listaVehiculos", vehiculoService.listarTodosVehiculos());
+        ModelAndView carritoParaMostrarVehiculos = new ModelAndView("listaVehiculos");
+        carritoParaMostrarVehiculos.addObject("listaVehiculos", vehiculoService.listarTodosVehiculos());
 
-        return "listaVehiculos";
+        return carritoParaMostrarVehiculos;
     }
 
     // FORMULARIO NUEVO
     @GetMapping("/nuevoVehiculo")
-    public String nuevoVehiculo(Model model) {
+    public ModelAndView nuevoVehiculo() {
 
         Vehiculo vehiculo = vehiculoService.crearNuevoVehiculo();
 
-        model.addAttribute("nuevoVehiculo", vehiculo);
-        model.addAttribute("band", false);  // en falso para crear
-        model.addAttribute("tipos", TipoVehiculo.values());
-        model.addAttribute("conductores", conductorService.listarTodosConductoresActivos());
+        ModelAndView carritoNuevoVehiculo = new ModelAndView("formularioVehiculo");
+        carritoNuevoVehiculo.addObject("nuevoVehiculo", vehiculo);
+        carritoNuevoVehiculo.addObject("band", false);  // en falso para crear
+        carritoNuevoVehiculo.addObject("tipos", TipoVehiculo.values());
+        carritoNuevoVehiculo.addObject("conductores", conductorService.listarTodosConductoresActivos());
 
-        return "formularioVehiculo";
+        return carritoNuevoVehiculo;
     }
 
     // GUARDAR NUEVO
     @PostMapping("/guardarVehiculo")
-    public String guardarVehiculo(Vehiculo vehiculo) {
+    public ModelAndView guardarVehiculo(Vehiculo vehiculo) {
 
         vehiculoService.agregarVehiculo(vehiculo);
-        return "redirect:/listarVehiculos";
+
+        ModelAndView listadoVehiculos = new ModelAndView("redirect:/listarVehiculos");
+        return listadoVehiculos;
     }
 
     // EDITAR
     @GetMapping("/editarVehiculo")
-    public String editarVehiculo(@RequestParam("patente") String patente, Model model) throws Exception {
+    public ModelAndView editarVehiculo(@RequestParam("patente") String patente) throws Exception {
 
         Vehiculo vehiculoEncontrado = vehiculoService.buscarVehiculo(patente);
 
-        model.addAttribute("nuevoVehiculo", vehiculoEncontrado);
-        model.addAttribute("band", true); // epara editar en true
-        model.addAttribute("tipos", TipoVehiculo.values());
-        model.addAttribute("conductores", conductorService.listarTodosConductoresActivos());
+        ModelAndView carritoParaEditarVehiculo = new ModelAndView("formularioVehiculo");
+        carritoParaEditarVehiculo.addObject("nuevoVehiculo", vehiculoEncontrado);
+        carritoParaEditarVehiculo.addObject("band", true); // para editar en true
+        carritoParaEditarVehiculo.addObject("tipos", TipoVehiculo.values());
+        carritoParaEditarVehiculo.addObject("conductores", conductorService.listarTodosConductoresActivos());
 
-        return "formularioVehiculo";
+        return carritoParaEditarVehiculo;
     }
 
     // MODIFICAR
     @PostMapping("/modificarVehiculo")
-    public String modificarVehiculo(Vehiculo vehiculo) {
+    public ModelAndView modificarVehiculo(Vehiculo vehiculo) {
 
         vehiculoService.modificarVehiculo(vehiculo);
-        return "redirect:/listarVehiculos";
+
+        ModelAndView listadoVehiculos = new ModelAndView("redirect:/listarVehiculos");
+        return listadoVehiculos;
     }
 
     // BORRADO LOGICO
     @GetMapping("/borrarVehiculo")
-    public String borrarVehiculo(@RequestParam("patente") String patente) throws Exception {
+    public ModelAndView borrarVehiculo(@RequestParam("patente") String patente) throws Exception {
 
         vehiculoService.borrarVehiculo(patente);
-        return "redirect:/listarVehiculos";
-    }
-}
 
+        ModelAndView listadoVehiculos = new ModelAndView("redirect:/listarVehiculos");
+        return listadoVehiculos;
+    }
+
+    // Lista solo los vehiculos activos disponibles para viaje
+    @GetMapping("/vehiculosDisponibles")
+    public ModelAndView vehiculosDisponibles() {
+
+        ModelAndView carritoVehiculosDisponibles = new ModelAndView("vehiculosDisponibles");
+        carritoVehiculosDisponibles.addObject("listaVehiculos", vehiculoService.listarTodosVehiculosActivos());
+
+        return carritoVehiculosDisponibles;
+    }
+
+}
