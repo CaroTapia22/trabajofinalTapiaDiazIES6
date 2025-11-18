@@ -11,7 +11,7 @@ import com.example.demo.repository.UsuarioRepository;
 
 @Service
 @Qualifier("servicioUsuarioMySQL")
-public class UsuarioServiceImpBD implements UsuarioService {
+public class UsuarioServiceImpBD implements UsuarioServiceI {
     
     //inyeccion de dependecia
     @Autowired
@@ -38,7 +38,7 @@ public class UsuarioServiceImpBD implements UsuarioService {
     }
 
     @Override
-    public List<Usuario> listarTodosUsuario() {
+    public List<Usuario> listarTodosUsuarios() {
         //agregamos conversion a (List<Usuario>)
         return (List<Usuario>) usuarioRepository.findAll();
     }

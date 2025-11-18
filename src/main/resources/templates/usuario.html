@@ -1,81 +1,90 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuario</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Formulario Usuario</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet" crossorigin="anonymous">
 </head>
 
-<body>
+<body class="container mt-5">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">REGISTRO DE USUARIO</a>
+<h1 data-th-text="${band} ? 'Modificar Usuario' : 'Nuevo Usuario'"></h1>
+
+<form data-th-object="${nuevoUsuario}"
+      data-th-action="${band} ? @{/modificarUsuario} : @{/guardarUsuario}"
+      method="post"
+      class="mt-4">
+
+    
+    <div class="mb-3">
+        <label class="form-label">DNI</label>
+        <input type="text"
+               class="form-control"
+               data-th-field="*{dni}"
+               placeholder="Ingresar DNI sin puntos"
+               data-th-readonly="${band}" />
+        <span class="text-danger"
+              data-th-if="${#fields.hasErrors('dni')}"
+              data-th-errors="*{dni}"></span>
     </div>
-</nav>
 
-<div class="container mt-4">
-    <h2 class="mb-4" th:text="${band} ? 'Modificar Usuario' : 'Registrar Usuario'"></h2>
 
-    <form th:object="${nuevoUsuario}" 
-          th:action="${band} ? @{/modificarUsuario} : @{/guardarUsuario}" 
-          method="post">
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input type="text"
+               class="form-control"
+               data-th-field="*{nombre}"
+               placeholder="Ingresar nombre" />
+        <span class="text-danger"
+              data-th-if="${#fields.hasErrors('nombre')}"
+              data-th-errors="*{nombre}"></span>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">DNI</label>
-            <input type="text" class="form-control" placeholder="Ingresar DNI sin puntos"
-                   th:field="*{dni}" th:readonly="${band}" />
-            <span th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="text-danger"></span>
-        </div>
+    <!-- Apellido -->
+    <div class="mb-3">
+        <label class="form-label">Apellido</label>
+        <input type="text"
+               class="form-control"
+               data-th-field="*{apellido}"
+               placeholder="Ingresar apellido" />
+        <span class="text-danger"
+              data-th-if="${#fields.hasErrors('apellido')}"
+              data-th-errors="*{apellido}"></span>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input type="text" class="form-control" placeholder="Ingresar su nombre"
-                   th:field="*{nombre}" />
-            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="text-danger"></span>
-        </div>
+    <div class="mb-3">
+        <label class="form-label">Correo electrónico</label>
+        <input type="email"
+               class="form-control"
+               data-th-field="*{correo}"
+               placeholder="Ej: usuario@correo.com" />
+        <span class="text-danger"
+              data-th-if="${#fields.hasErrors('correo')}"
+              data-th-errors="*{correo}"></span>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Apellido</label>
-            <input type="text" class="form-control" placeholder="Ingrese su apellido"
-                   th:field="*{apellido}" />
-            <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}" class="text-danger"></span>
-        </div>
+    <div class="mb-3">
+        <label class="form-label">Teléfono</label>
+        <input type="text"
+               class="form-control"
+               data-th-field="*{telefono}"
+               placeholder="Solo números" />
+        <span class="text-danger"
+              data-th-if="${#fields.hasErrors('telefono')}"
+              data-th-errors="*{telefono}"></span>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" placeholder="Ej: uber@correo.com"
-                   th:field="*{correo}" />
-            <span th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}" class="text-danger"></span>
-        </div>
+    <button type="submit"
+            class="btn btn-success"
+            data-th-text="${band} ? 'Modificar' : 'Guardar'">
+    </button>
 
-        <div class="mb-3">
-            <label class="form-label">Teléfono</label>
-            <input type="text" class="form-control" placeholder="Ej: +541100000000"
-                   th:field="*{telefono}" />
-            <span th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}" class="text-danger"></span>
-        </div>
+    <a href="/listarUsuarios" class="btn btn-secondary ms-2">Volver</a>
 
-        <div class="mb-3">
-            <label class="form-label">Estado</label>
-            <select class="form-select" th:field="*{estado}">
-                <option value="true">Activo</option>
-                <option value="false">Inactivo</option>
-            </select>
-        </div>
-
-        <button type="submit" class="btn btn-primary"
-                th:text="${band} ? 'Modificar' : 'Ingresar'"></button>
-
-    </form>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+</form>
 
 </body>
 </html>

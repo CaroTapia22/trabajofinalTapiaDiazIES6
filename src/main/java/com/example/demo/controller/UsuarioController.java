@@ -9,30 +9,32 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-import jakarta.validation.Valid;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.Usuario;
-import com.example.demo.service.UsuarioService;
+import com.example.demo.service.UsuarioServiceI;
 
-@Qualifier("servicioUsuarioMySQL")
+import jakarta.validation.Valid;
+
 @Controller
 public class UsuarioController {
 
+    @Qualifier("servicioUsuarioMySQL")
     @Autowired
-    UsuarioService UsuarioService;
+    private UsuarioServiceI usuarioService;
 
-    // Mostrar formulario vacío
+    // FORMULARIO VACIO
     @GetMapping("/usuario")
     public ModelAndView getUsuario() {
         ModelAndView carrito = new ModelAndView("usuario");
 
-        carrito.addObject("nuevoUsuario", UsuarioService.crearNuevoUsuario());
-        carrito.addObject("band", false); // modo crear
+        carrito.addObject("nuevoUsuario", usuarioService.crearNuevoUsuario());
+        carrito.addObject("band", false); 
 
         return carrito;
     }
 
-    // Guardar usuario nuevo
+    // GUARDAR USUARIO NUEVO
     @PostMapping("/guardarUsuario")
     public ModelAndView saveUsuario(
             @Valid @ModelAttribute("nuevoUsuario") Usuario usuarioParaGuardar,
@@ -40,17 +42,15 @@ public class UsuarioController {
 
         ModelAndView modelAndView = new ModelAndView();
 
-        System.out.println("estoy ingresando al metodo de guardar");
-
         if (result.hasErrors()) {
             modelAndView.setViewName("usuario");
             modelAndView.addObject("nuevoUsuario", usuarioParaGuardar);
-            modelAndView.addObject("band", false); // modo creación
+            modelAndView.addObject("band", false);  
             return modelAndView;
         }
 
         try {
-            UsuarioService.agregarUsuario(usuarioParaGuardar);
+            usuarioService.agregarUsuario(usuarioParaGuardar);
             modelAndView.setViewName("listaUsuarios");
             modelAndView.addObject("correcto", "Usuario registrado con éxito");
         } catch (Exception e) {
@@ -62,60 +62,65 @@ public class UsuarioController {
             return modelAndView;
         }
 
-        modelAndView.addObject("lista", UsuarioService.listarTodosUsuariosActivos());
-        System.out.println("estoy saliendo al metodo de guardar");
-
+        modelAndView.addObject("lista", usuarioService.listarTodosUsuariosActivos());
         return modelAndView;
     }
 
-    // Eliminar usuario
+    // ELIMINAR (BORRADO LÓGICO)
     @GetMapping("/eliminarUsuario/{dni}")
     public ModelAndView eliminarUsuario(@PathVariable(name = "dni") String dni) throws Exception {
         ModelAndView carritoDeEliminar = new ModelAndView("listaUsuarios");
-        UsuarioService.borrarUsuario(dni);
-        carritoDeEliminar.addObject("lista", UsuarioService.listarTodosUsuariosActivos());
+
+        usuarioService.borrarUsuario(dni);
+        carritoDeEliminar.addObject("lista", usuarioService.listarTodosUsuariosActivos());
 
         return carritoDeEliminar;
     }
 
-    // Buscar usuario para modificar
+    // BUSCAR USUARIO PARA MODIFICAR
     @GetMapping("/modificarUsuario/{dni}")
     public ModelAndView buscarUsuarioParaModificar(@PathVariable(name = "dni") String dni) throws Exception {
         ModelAndView carritoParaModificarUsuario = new ModelAndView("usuario");
-        carritoParaModificarUsuario.addObject("nuevoUsuario", UsuarioService.buscarUnUsuario(dni));
-        carritoParaModificarUsuario.addObject("band", true); // modo edición
+
+        carritoParaModificarUsuario.addObject("nuevoUsuario", usuarioService.buscarUnUsuario(dni));
+        carritoParaModificarUsuario.addObject("band", true);  
 
         return carritoParaModificarUsuario;
     }
 
-    // Modificar usuario
+    // MODIFICAR USUARIO
     @PostMapping("/modificarUsuario")
     public ModelAndView modificarUsuario(
             @Valid @ModelAttribute("nuevoUsuario") Usuario usuarioModificado,
-            BindingResult result) {
-
-        ModelAndView modelAndView = new ModelAndView();
+            BindingResult result,
+            RedirectAttributes redirectAttrs) {
 
         if (result.hasErrors()) {
-            modelAndView.setViewName("usuario");
-            modelAndView.addObject("nuevoUsuario", usuarioModificado);
-            modelAndView.addObject("band", true); // modo edición
-            return modelAndView;
+            ModelAndView mav = new ModelAndView("usuario");
+            mav.addObject("nuevoUsuario", usuarioModificado);
+            mav.addObject("band", true);   
+            return mav;
         }
 
-        UsuarioService.agregarUsuario(usuarioModificado);
-        modelAndView.setViewName("listaUsuarios");
-        modelAndView.addObject("lista", UsuarioService.listarTodosUsuariosActivos());
+        try {
+            usuarioService.modificarUsuario(usuarioModificado);  
+            redirectAttrs.addFlashAttribute("correcto", "Usuario modificado correctamente.");
+        } catch (Exception e) {
+            redirectAttrs.addFlashAttribute("errorUsuario",
+                    "Error al modificar el usuario: " + e.getMessage());
+        }
 
-        return modelAndView;
+        ModelAndView listadoEditado = new ModelAndView("listaUsuarios");
+        listadoEditado.addObject("lista", usuarioService.listarTodosUsuariosActivos());
+
+        return listadoEditado;
     }
 
-    // Lista completa
+    // LISTAR USUARIOS ACTIVOS
     @GetMapping("/listarUsuarios")
     public ModelAndView listarUsuariosActivos() {
         ModelAndView carritoParaMostrarUsuarios = new ModelAndView("listaUsuarios");
-        carritoParaMostrarUsuarios.addObject("lista", UsuarioService.listarTodosUsuariosActivos());
-
+        carritoParaMostrarUsuarios.addObject("lista", usuarioService.listarTodosUsuariosActivos());
         return carritoParaMostrarUsuarios;
     }
 

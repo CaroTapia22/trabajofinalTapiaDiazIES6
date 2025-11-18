@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:data-th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Usuarios</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet" crossorigin="anonymous">
+</head>
+
+<body class="container mt-5">
+
+<h1 class="mb-4">Lista de Usuarios</h1>
+
+<a href="/nuevoUsuario" class="btn btn-primary mb-3">Nuevo Usuario</a>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>DNI</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+
+    <tbody data-th-each="usuario : ${lista}">
+    <tr>
+
+        <td data-th-text="${usuario.dni}"></td>
+        <td data-th-text="${usuario.nombre}"></td>
+        <td data-th-text="${usuario.apellido}"></td>
+        <td data-th-text="${usuario.correo}"></td>
+        <td data-th-text="${usuario.telefono}"></td>
+
+
+        <td>
+            <span data-th-text="${usuario.estado} ? 'Activo' : 'Inactivo'"></span>
+        </td>
+
+
+        <td>
+
+            <a class="btn btn-warning btn-sm"
+               data-th-href="@{/editarUsuario(dni=${usuario.dni})}">
+                Editar
+            </a>
+
+            <a class="btn btn-danger btn-sm"
+   data-th-href="@{/eliminarUsuario/{dni}(dni=${usuario.dni})}">
+    Borrar
+</a>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
