@@ -37,7 +37,7 @@ public class Usuario {
 
     @Column
     @NotBlank(message= "El campo correo electronico es obligatorio")
-    @Email(message = "Debe ingresae un correo valido")
+    @Email(message = "Debe ingresar un correo valido")
     private String correo;
 
 

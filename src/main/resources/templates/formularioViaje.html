@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:data-th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Viaje</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+
+<body class="container mt-5">
+
+<h1>Registrar Viaje</h1>
+
+<div class="card p-3 mb-4">
+    <p><strong>Usuario:</strong>
+        <span data-th-text="${usuarioSeleccionado.nombre + ' ' + usuarioSeleccionado.apellido}"></span>
+    </p>
+
+    <p><strong>Vehículo:</strong>
+        <span data-th-text="${vehiculoSeleccionado.marca + ' ' + vehiculoSeleccionado.modelo}"></span>
+        (Patente: <span data-th-text="${vehiculoSeleccionado.patente}"></span>)
+    </p>
+
+    <p><strong>Tipo de Vehículo:</strong>
+        <span data-th-text="${vehiculoSeleccionado.tipo}"></span>
+    </p>
+</div>
+
+<form data-th-object="${nuevoViaje}" data-th-action="@{/guardarViaje}" method="post">
+
+    <input type="hidden" name="dniUsuario" data-th-value="${dniUsuario}">
+    <input type="hidden" name="patenteVehiculo" data-th-value="${patenteVehiculo}">
+
+    <div class="mb-3">
+        <label class="form-label">Tipo de viaje</label>
+        <select class="form-select" data-th-field="*{tipoViaje}">
+            <option data-th-each="t : ${tiposViaje}"
+                    data-th-text="${t}"
+                    data-th-value="${t}">
+            </option>
+        </select>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Confirmar Viaje</button>
+
+</form>
+
+</body>
+</html>
