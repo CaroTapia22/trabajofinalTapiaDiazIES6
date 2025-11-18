@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:data-th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Viaje</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+
+<body class="container mt-5">
+
+<h1>Detalle del Viaje</h1>
+
+<div class="card p-3">
+
+    <p><strong>Usuario:</strong>
+        <span data-th-text="${usuario.nombre + ' ' + usuario.apellido}"></span>
+    </p>
+
+    <p><strong>Vehículo:</strong>
+        <span data-th-text="${vehiculo.marca + ' ' + vehiculo.modelo}"></span>
+        (Patente: <span data-th-text="${vehiculo.patente}"></span>)
+    </p>
+
+    <p><strong>Conductor:</strong>
+        <span data-th-text="${conductor.nombre + ' ' + conductor.apellido}"></span>
+    </p>
+
+    <p><strong>Tipo de viaje:</strong>
+        <span data-th-text="${viaje.tipoViaje}"></span>
+    </p>
+
+    <p><strong>Costo final:</strong> $<span data-th-text="${viaje.costoFinal}"></span></p>
+
+    <p><strong>Fecha/Hora:</strong>
+        <span data-th-text="${viaje.fechaHora}"></span>
+    </p>
+
+</div>
+
+<a href="/listarViajes" class="btn btn-primary mt-3">Ver lista de viajes</a>
+
+</body>
+</html>
