@@ -3,11 +3,13 @@ package com.example.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.model.Vehiculo;
+import com.example.demo.model.Conductor;
 import com.example.demo.model.TipoVehiculo;
 import com.example.demo.service.VehiculoServiceI;
 import com.example.demo.service.ConductorServiceI;
@@ -46,15 +48,6 @@ public class VehiculoController {
         return carritoNuevoVehiculo;
     }
 
-    // GUARDAR NUEVO
-    @PostMapping("/guardarVehiculo")
-    public ModelAndView guardarVehiculo(Vehiculo vehiculo) {
-
-        vehiculoService.agregarVehiculo(vehiculo);
-
-        ModelAndView listadoVehiculos = new ModelAndView("redirect:/listarVehiculos");
-        return listadoVehiculos;
-    }
 
     // EDITAR
     @GetMapping("/editarVehiculo")
@@ -71,15 +64,43 @@ public class VehiculoController {
         return carritoParaEditarVehiculo;
     }
 
-    // MODIFICAR
-    @PostMapping("/modificarVehiculo")
-    public ModelAndView modificarVehiculo(Vehiculo vehiculo) {
+    // GUARDAR NUEVO
+@PostMapping("/guardarVehiculo")
+public ModelAndView guardarVehiculo(@ModelAttribute("nuevoVehiculo") Vehiculo vehiculo) throws Exception {
 
-        vehiculoService.modificarVehiculo(vehiculo);
-
-        ModelAndView listadoVehiculos = new ModelAndView("redirect:/listarVehiculos");
-        return listadoVehiculos;
+    // Resolver el conductor por DNI (si viene alguno seleccionado)
+    if (vehiculo.getConductor() != null && vehiculo.getConductor().getDni() != null) {
+        Conductor conductor = conductorService.buscarConductor(vehiculo.getConductor().getDni());
+        vehiculo.setConductor(conductor);
+    } else {
+        vehiculo.setConductor(null);
     }
+
+    vehiculoService.agregarVehiculo(vehiculo);
+
+    ModelAndView mav = new ModelAndView();
+    mav.setViewName("redirect:/listarVehiculos");
+    return mav;
+}
+
+   // MODIFICAR
+   @PostMapping("/modificarVehiculo")
+   public ModelAndView modificarVehiculo(@ModelAttribute("nuevoVehiculo") Vehiculo vehiculo) throws Exception {
+
+    if (vehiculo.getConductor() != null && vehiculo.getConductor().getDni() != null) {
+        Conductor conductor = conductorService.buscarConductor(vehiculo.getConductor().getDni());
+        vehiculo.setConductor(conductor);
+    } else {
+        vehiculo.setConductor(null);
+    }
+
+    vehiculoService.modificarVehiculo(vehiculo);
+
+    ModelAndView mav = new ModelAndView();
+    mav.setViewName("redirect:/listarVehiculos");
+    return mav;
+}
+
 
     // BORRADO LOGICO
     @GetMapping("/borrarVehiculo")

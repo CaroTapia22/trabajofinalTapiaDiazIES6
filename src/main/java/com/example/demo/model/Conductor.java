@@ -37,7 +37,7 @@ public class Conductor {
     @Column
     private LocalDate fechaRegistro;
     @Column
-    private Boolean estado;   
+    private Boolean estado=true;   
 
 
     //agregar @OneToOne con Vehiculo

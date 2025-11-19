@@ -20,15 +20,15 @@ public class ConductorController {
     @Autowired
     private ConductorServiceI conductorService;
 
-    // LISTA DE CONDUCTORES
+    // LISTA DE CONDUCTORES (solo activos)
     @GetMapping("/listarConductores")
     public ModelAndView listarConductores() {
 
-        ModelAndView carritoParaMostrarConductores = new ModelAndView("listaConductores");
-        carritoParaMostrarConductores.addObject("listaConductores", conductorService.listarTodosConductores());
-
-        return carritoParaMostrarConductores;
+    ModelAndView mav = new ModelAndView("listaConductores");
+    mav.addObject("listaConductores", conductorService.listarTodosConductoresActivos());
+    return mav;
     }
+    
 
     // FORMULARIO NUEVO CONDUCTOR
     @GetMapping("/nuevoConductor")

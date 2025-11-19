@@ -10,6 +10,7 @@
 </head>
 
 <body class="container mt-5">
+<div th:replace="layout :: header"></div> <!--TRAEMOS EL ARCHIVO LAYOUT CON EL FRAGMENTO HEADER-->
 
     <h1 data-th-text="${band} ? 'Modificar Conductor' : 'Nuevo Conductor'"></h1>
 
@@ -97,6 +98,10 @@
 
         <a href="/listarConductores" class="btn btn-secondary ms-2">Volver</a>
     </form>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+                integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+                crossorigin="anonymous"></script>
+    <div th:replace="layout :: footer"></div>
 
 </body>
 </html>
