@@ -23,16 +23,15 @@ public class UsuarioController {
     @Autowired
     private UsuarioServiceI usuarioService;
 
-    // FORMULARIO VACIO
-    @GetMapping("/usuario")
-    public ModelAndView getUsuario() {
-        ModelAndView carrito = new ModelAndView("usuario");
+   // FORMULARIO VACIO
+@GetMapping({"/usuario", "/nuevoUsuario"})
+public ModelAndView getUsuario() {
+    ModelAndView carrito = new ModelAndView("usuario");
+    carrito.addObject("nuevoUsuario", usuarioService.crearNuevoUsuario());
+    carrito.addObject("band", false);
+    return carrito;
+}
 
-        carrito.addObject("nuevoUsuario", usuarioService.crearNuevoUsuario());
-        carrito.addObject("band", false); 
-
-        return carrito;
-    }
 
     // GUARDAR USUARIO NUEVO
     @PostMapping("/guardarUsuario")

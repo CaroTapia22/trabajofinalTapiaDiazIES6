@@ -29,7 +29,7 @@ public class Vehiculo {
     private TipoVehiculo tipo;  // X LUXE Y PREMIUM
 
     @Column
-    private Boolean estado;
+    private Boolean estado=true;
 
     // RELACION 1:1 CON CONDUCTOR 
     @OneToOne
