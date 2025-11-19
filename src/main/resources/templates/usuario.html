@@ -78,6 +78,8 @@
               data-th-errors="*{telefono}"></span>
     </div>
 
+    <input type="hidden" data-th-field="*{estado}" />
+
     <button type="submit"
             class="btn btn-success"
             data-th-text="${band} ? 'Modificar' : 'Guardar'">

@@ -46,10 +46,11 @@
 
         <td>
 
-            <a class="btn btn-warning btn-sm"
-               data-th-href="@{/editarUsuario(dni=${usuario.dni})}">
-                Editar
+           <a class="btn btn-warning btn-sm"
+             data-th-href="@{/modificarUsuario/{dni}(dni=${usuario.dni})}">
+              Editar
             </a>
+
 
             <a class="btn btn-danger btn-sm"
    data-th-href="@{/eliminarUsuario/{dni}(dni=${usuario.dni})}">
