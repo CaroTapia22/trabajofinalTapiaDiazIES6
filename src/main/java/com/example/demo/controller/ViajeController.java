@@ -39,7 +39,7 @@ public class ViajeController {
         return carritoSeleccionUsuario;
     }
 
-    // LUEGO DE ELEGIR USUARIO → MOSTRAR VEHÍCULOS DISPONIBLES
+    // LUEGO DE ELEGIR USUARIO  MOSTRAR VEHÍCULOS DISPONIBLES
     @GetMapping("/seleccionarUsuarioParaViaje")
     public ModelAndView mostrarVehiculosParaUsuario(@RequestParam("dni") String dniUsuario) throws Exception {
 
