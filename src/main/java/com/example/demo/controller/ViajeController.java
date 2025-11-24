@@ -55,7 +55,7 @@ public class ViajeController {
     // DESPUES DE ELEGIR VEHICULO EL FORMULARIO DE VIAJE
     @GetMapping("/nuevoViaje")
     public ModelAndView nuevoViaje(@RequestParam("dniUsuario") String dniUsuario,
-                                   @RequestParam("patente") String patenteVehiculo) throws Exception {
+                                   @RequestParam("patenteVehiculo") String patenteVehiculo) throws Exception {
 
         Usuario usuarioSeleccionado = usuarioService.buscarUnUsuario(dniUsuario);
         Vehiculo vehiculoSeleccionado = vehiculoService.buscarVehiculo(patenteVehiculo);
